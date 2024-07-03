@@ -3,6 +3,7 @@ const mediaUrls = [
 	"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/09/Frozen_drop.webm/Frozen_drop.webm.720p.vp9.webm",
 	"https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a9/Fermi_Observations_of_Dwarf_Galaxies_Provide_New_Insights_on_Dark_Matter.ogv/Fermi_Observations_of_Dwarf_Galaxies_Provide_New_Insights_on_Dark_Matter.ogv.720p.vp9.webm",
 	"https://upload.wikimedia.org/wikipedia/commons/transcoded/4/4c/Comparison_of_rotating_disc_galaxies_in_the_distant_Universe_and_the_present_day.webm/Comparison_of_rotating_disc_galaxies_in_the_distant_Universe_and_the_present_day.webm.720p.vp9.webm",
+	"https://assets.codepen.io/3421562/PlayStation+5++Startup.mp4",
 	"",
 ];
 
