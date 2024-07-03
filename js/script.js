@@ -1,0 +1,85 @@
+const mediaUrls = [
+	"https://upload.wikimedia.org/wikipedia/commons/transcoded/d/da/Paris_lockdown_-_Vimeo.webm/Paris_lockdown_-_Vimeo.webm.720p.vp9.webm#t=00:00:10",
+	"https://upload.wikimedia.org/wikipedia/commons/transcoded/0/09/Frozen_drop.webm/Frozen_drop.webm.720p.vp9.webm",
+	"https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a9/Fermi_Observations_of_Dwarf_Galaxies_Provide_New_Insights_on_Dark_Matter.ogv/Fermi_Observations_of_Dwarf_Galaxies_Provide_New_Insights_on_Dark_Matter.ogv.720p.vp9.webm",
+	"https://upload.wikimedia.org/wikipedia/commons/transcoded/4/4c/Comparison_of_rotating_disc_galaxies_in_the_distant_Universe_and_the_present_day.webm/Comparison_of_rotating_disc_galaxies_in_the_distant_Universe_and_the_present_day.webm.720p.vp9.webm",
+	"",
+];
+
+let currentIndex = 0;
+
+let preloadedVideos = {};
+function preloadVideo(url) {
+	if (!preloadedVideos[url]) {
+		const video = document.createElement("video");
+		video.src = url;
+		video.type = "video/mp4";
+		video.preload = "auto";
+		video.style.display = "none";
+		document.body.appendChild(video);
+		preloadedVideos[url] = true;
+	}
+}
+
+function swapMedia() {
+	const mediaContainer = document.getElementById("media-container");
+	mediaContainer.innerHTML = "";
+	const url = mediaUrls[currentIndex];
+	const nextUrl = mediaUrls[(currentIndex + 1) % mediaUrls.length];
+	const isImg = /\.(jpg|jpeg|png|gif)$/i.test(url);
+	for (let i = 0; i < 4; i++) {
+		if (isImg) {
+			const img = document.createElement("img");
+			img.src = url;
+			mediaContainer.appendChild(img);
+		} else {
+			const video = document.createElement("video");
+			const source = document.createElement("source");
+			source.src = url;
+			source.type = "video/mp4";
+			video.autoplay = true;
+			video.muted = true;
+			video.loop = true;
+			i > 0 ? (video.style.opacity = currentOpacity) : "";
+			video.appendChild(source);
+			mediaContainer.appendChild(video);
+			preloadVideo(nextUrl);
+		}
+	}
+	currentIndex = (currentIndex + 1) % mediaUrls.length;
+}
+let ps5 = document.querySelector(".ps5");
+document.querySelector("#media-container").addEventListener("click", (e) => {
+	e.preventDefault();
+	if (ps5.classList.contains("on")) {
+		ps5.classList.remove("on");
+		currentIndex = 0;
+	}
+	currentIndex == 4 ? currentIndex++ : "";
+	swapMedia();
+});
+ps5.addEventListener("click", () => {
+	if (ps5.classList.contains("on")) {
+		ps5.classList.remove("on");
+		currentIndex = 5;
+		swapMedia();
+	} else {
+		ps5.classList.add("on");
+		currentIndex = 4;
+		swapMedia();
+	}
+});
+
+let currentOpacity = 1;
+document.querySelector("input#opacity").addEventListener("input", (e) => {
+	currentOpacity = e.target.value;
+	let bgTarget = document.querySelectorAll("video");
+	for (let i = 1; i < bgTarget.length; i++) {
+		bgTarget[i].style.opacity = currentOpacity;
+	}
+});
+
+const d = new Date();
+const hr = d.getHours() % 12 || 12;
+const min = d.getMinutes().toString().padStart(2, "0");
+document.querySelector(".display").innerHTML = `${hr}:${min}`;
